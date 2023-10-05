@@ -18,6 +18,8 @@ export class AuthService {
                     hash,
                 },
             });
+
+            delete user.hash;
             return user;
         } catch (error) {
             if (error instanceof PrismaClientKnownRequestError) {
@@ -31,7 +33,24 @@ export class AuthService {
         }
     }
 
-    signIn() {
-        return ' this is sign in';
+    async signIn(dto: AuthDto) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                email: dto.email,
+            },
+        });
+
+        if (!user) {
+            throw new ForbiddenException('user does not exist');
+        }
+
+        const passwordMatches = await argon.verify(user.hash, dto.password);
+
+        if (!passwordMatches) {
+            throw new ForbiddenException('password incorrect');
+        }
+
+        delete user.hash;
+        return user;
     }
 }
