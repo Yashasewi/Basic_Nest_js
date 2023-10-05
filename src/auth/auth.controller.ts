@@ -6,9 +6,10 @@ import { AuthDto } from './dto';
 export class AuthController {
     constructor(private testService: AuthService) {}
 
-    @Post('singIn')
-    signIn() {
-        return this.testService.signIn();
+    @Post('signIn')
+    signIn(@Body() dto: AuthDto) {
+        console.log(dto);
+        return this.testService.signIn(dto);
     }
 
     @Post('signUp')
