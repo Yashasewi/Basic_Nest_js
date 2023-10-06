@@ -4,7 +4,6 @@ import * as argon from 'argon2';
 import { AuthDto } from './dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { waitForDebugger } from 'inspector';
 
 @Injectable()
 export class AuthService {
