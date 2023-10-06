@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Put } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto } from './dto';
+import { AuthDto, CreateUserDto } from './dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
     constructor(private auth: AuthService) {}
 
@@ -13,11 +15,15 @@ export class AuthController {
     }
 
     @Post('signUp')
-    signUp(@Body() dto: AuthDto) {
+    signUp(@Body() dto: CreateUserDto) {
         return this.auth.signUp(dto);
     }
     @Delete('removeUser')
     DeleteUser(@Body() dto: AuthDto) {
         return this.auth.DeleteUser(dto);
+    }
+    @Put('updateUser')
+    UpdateUser(@Body() dto: CreateUserDto) {
+        return this.auth.UpdateUser(dto);
     }
 }
